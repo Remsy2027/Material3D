@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Material3D @ VisCommerce</title>
+  <style>
+    body {
+      overflow: hidden;
+      margin: 0;
+      display: flex;
+      flex-direction: row-reverse;
+      height: 100vh;
+    }
+
+    #canvas-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #split-container {
+      display: flex;
+      height: 100%;
+    }
+
+    #ui-container {
+      width: 25%;
+      height: 100%;
+      background-color: #24292e;
+      color: #fff;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .accordion {
+      margin-bottom: 15px;
+    }
+
+    .accordion-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #373c42;
+      color: #fff;
+      text-align: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border-radius: 10px;
+    }
+
+    .accordion-button:hover {
+      background-color: #4a4f54;
+    }
+
+    .accordion-content {
+      display: none;
+      margin-left: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      flex: 0 0 calc(50% - 10px);
+      max-width: calc(50% - 10px);
+      height: auto;
+      padding: 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      text-align: center;
+      margin-bottom: 10px;
+      margin-top: 20px;
+      background-color: #ffffff;
+      transition: background-color 0.3s;
+      border-radius: 10px;
+    }
+
+    .button:hover {
+      background-color: #4a4f54;
+    }
+
+    .button img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      transition: transform 0.3s;
+      border-radius: 10px;
+    }
+
+    .button:hover img {
+      transform: scale(1.1);
+    }
+
+    /* Spinner container */
+    .spinner-container {
+      position: fixed;
+      top: 40%;
+      left: 35%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Spinner animation */
+    .spinner {
+      border: 12px solid #f3f3f3;
+      border-top: 12px solid #3498db;
+      border-radius: 75%;
+      width: 75px;
+      height: 75px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Toggle switch styles */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+      bottom: 10px;
+      left: 40%;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #FFA500;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #FFA500;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+  </style>
+  <script src="src/main.ts" defer type="module"></script>
+</head> 
+
+<body>
+  <div id="ui-container">
+
+    <div class="spinner-container">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Add a switch for day and night light -->
+    <label class="switch" id="dayNightToggle">
+      <input type="checkbox" unchecked>
+      <span class="slider round"></span>
+    </label>
+
+  <!-- <button class="accordion accordion-button" id="dayNightToggle">Day ☀️/ Night 🌑</button> -->
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Leather')">Leather</button>
+      <div class="accordion-content" id="Leather">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather1.png" data-model="Sofa" data-variant='Brown_Leather'
+              alt="Leather 1">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather2.png" data-model="Sofa" data-variant='Blue_Leather'
+              alt="Leather 2">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather3.png" data-model="Sofa" data-variant='Pattern_Leather'
+              alt="Leather 3">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather4.png" data-model="Sofa" data-variant='Orange_Leather'
+              alt="Leather 4">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Metal')">Metal</button>
+      <div class="accordion-content" id="Metal">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/chrome.png" data-model="Center_Table" data-variant='Chrome' alt="chrome">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/steel.png" data-model="Center_Table" data-variant='Steel' alt="steel">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/copper.png" data-model="Center_Table" data-variant='Copper' alt="copper">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/aluminium.png" data-model="Center_Table" data-variant='Aluminium' alt="aluminium">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Glass')">Glass</button>
+      <div class="accordion-content" id="Glass">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/frosted glass.png" data-model="Window" data-variant='Frosted_Glass'
+              alt="frosted glass">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/tinted glass.png" data-model="Window" data-variant='Tinted_Glass'
+              alt="tinted glass">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/shattered glass.png" data-model="Window" data-variant='Shattered_Glass'
+              alt="shattered glass">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/decorative glass.png" data-model="Window" data-variant='Decorative_Glass'
+              alt="decorative glass">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Wall')">Paints & Wallpapers</button>
+      <div class="accordion-content" id="Wall">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/1.jpg" data-model="Wall" data-variant='Brown_Theme'
+              alt="Brown_Theme">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/2.jpg" data-model="Wall" data-variant='Honey_Theme'
+              alt="Honey_Theme">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Pink.png" data-model="Wall" data-variant='Pink_Theme'
+              alt="Pink_Theme">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Gold.png" data-model="Wall" data-variant='Gold_Theme'
+              alt="Gold_Theme">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Flooring')">Flooring</button>
+      <div class="accordion-content" id="Flooring">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leminate.png" data-model="Floor" data-variant='Floor1' alt="Floor1">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Marble.png" data-model="Floor" data-variant='Floor2' alt="Floor2">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Vinyl.png" data-model="Floor" data-variant='Floor3' alt="Floor3">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Ceramic.png" data-model="Floor" data-variant='Floor4' alt="Floor4">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Carpet')">Carpet</button>
+      <div class="accordion-content" id="Carpet">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Carpet1.png" data-model="Carpet" data-variant='' alt="Carpet 0">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Carpet1.png" data-model="Carpet" data-variant='Carpet1' alt="Carpet 1">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Carpet2.png" data-model="Carpet" data-variant='Carpet2' alt="Carpet 2">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Carpet3.png" data-model="Carpet" data-variant='Carpet3' alt="Carpet 3">
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Carpet4.png" data-model="Carpet" data-variant='Carpet4' alt="Carpet 4">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <!-- <script type="module" src="bundle.js"></script> -->
+
+  <script>
+    // Function to toggle accordion content
+    function toggleAccordion(accordionId) {
+      const accordionContent = document.getElementById(accordionId);
+      accordionContent.style.display = (accordionContent.style.display === 'block') ? 'none' : 'block';
+    }
+
+     // Function to toggle day and night light
+    //  function toggleDayNight() {
+    //   const canvasContainer = document.getElementById('canvas-container');
+    //   canvasContainer.dispatchEvent(new CustomEvent('toggleDayNight'));
+    // }
+
+  </script>
+</body>
+
+</html>
