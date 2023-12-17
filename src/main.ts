@@ -6,6 +6,8 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 
+
+
 //@ts-ignore
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
 //@ts-ignore

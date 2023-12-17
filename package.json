@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "lil-gui": "^0.17.0",
+    "postprocessing": "^6.33.4",
     "sass": "^1.56.1",
     "three": "^0.147.0",
     "three-gltf-extensions": "^0.0.15",
