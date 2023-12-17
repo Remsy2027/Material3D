@@ -1,4 +1,3 @@
-console.log('sdfsdf')
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -13,6 +12,8 @@ import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_me
 import GLTFMaterialsVariantsExtension from 'three-gltf-extensions/loaders/KHR_materials_variants/KHR_materials_variants.js';
 
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
+const specificObjectToggleCheckbox = document.getElementById('specificObjectToggle') as HTMLInputElement;
+let specificObject: THREE.Object3D | undefined;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff); // Set 3D scene's background color to white
@@ -131,6 +132,10 @@ function loadModels(index: number) {
       // console.log(modelPath)
       loadedModelsMap[modelName] = gltf
 
+      if (modelName === 'Carpet') {
+        specificObject = gltf.scene; // Store the specific object
+      }
+
       gltf.scene.traverse(function (child) {
         if ((child as THREE.Mesh).isMesh) {
           const m = child as THREE.Mesh;
@@ -178,6 +183,20 @@ function loadModels(index: number) {
 
 // Start loading models
 loadModels(0);
+
+if (specificObjectToggleCheckbox) {
+  specificObjectToggleCheckbox.addEventListener('change', () => {
+    const isActivated = specificObjectToggleCheckbox.checked;
+
+    // Toggle visibility of the specific object based on the checkbox state
+    if (specificObject) {
+      specificObject.visible = isActivated;
+    }
+  });
+} else {
+  console.error("Element with id 'specificObjectToggle' not found.");
+}
+
 
 // Function to add a directional light
 function addDirectionalLight() {
