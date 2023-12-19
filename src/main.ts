@@ -81,7 +81,7 @@ function setupHDRI() {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
-    // scene.background = myhdr;
+    scene.background = myhdr;
   });
 }
 
