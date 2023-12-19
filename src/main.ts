@@ -5,8 +5,11 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
-
-
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
 //@ts-ignore
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
@@ -25,9 +28,30 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.1;
+renderer.toneMappingExposure = 0.25;
 renderer.setSize(window.innerWidth * 0.75, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+
+//Anti Aliasing
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass(scene, camera);
+composer.addPass(renderPass);
+
+// FXAA pass
+const fxaaPass = new ShaderPass(FXAAShader);
+fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+composer.addPass(fxaaPass);
+
+// SSAO pass
+const ssaoPass = new SSAOPass(scene, camera, window.innerWidth, window.innerHeight);
+ssaoPass.kernelRadius = 32; // Adjust as needed
+ssaoPass.minDistance = 0.005; // Adjust as needed
+ssaoPass.maxDistance = 0.1; // Adjust as needed
+composer.addPass(ssaoPass);
+
+// Set the pixel ratio for the renderer
+renderer.setPixelRatio(window.devicePixelRatio);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 const loader = new GLTFLoader();
@@ -36,8 +60,6 @@ const ktx2Loader = new KTX2Loader();
 console.log('here')
 ktx2Loader.setTranscoderPath( '/basis/');
 ktx2Loader.detectSupport( renderer );
-
-
 
 dracoLoader.setDecoderPath('/draco/');
 
@@ -243,7 +265,7 @@ if (dayNightToggle) {
       const modeSwitchStartTime = performance.now();
       // Switch to day mode (remove night lights, add day lights)
       addDirectionalLight(); // Add a new directional light for day mode      
-      renderer.toneMappingExposure = 0.5;
+      renderer.toneMappingExposure = 1;
 
       for (const modelName in loadedModelsMap) {
         const modelData = loadedModelsMap[modelName];
@@ -276,7 +298,7 @@ if (dayNightToggle) {
       // Switch to night mode (remove day lights, remove directional light)
 
       removeDirectionalLight();
-      renderer.toneMappingExposure = 0.1;
+      renderer.toneMappingExposure = 0.25;
 
       for (const modelName in loadedModelsMap) {
         const modelData = loadedModelsMap[modelName];
@@ -321,6 +343,8 @@ function animate() {
   controls.update();
 
   render();
+
+  composer.render();
 
   stats.update();
 }
