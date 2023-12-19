@@ -55,11 +55,11 @@ let isDayMode = false; // Initial mode is day
 // Function to add HDRI
 function setupHDRI() {
   const rgbeloader = new RGBELoader();
-  rgbeloader.load('hdri/scythian_tombs_2_4k.hdr', (hdri) => {
+  rgbeloader.load('hdri/gem_2.hdr', (hdri) => {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
-    scene.background = myhdr;
+    // scene.background = myhdr;
   });
 }
 
@@ -68,14 +68,16 @@ setupHDRI();
 const modelPaths = [
   'models/Floor.glb',
   'models/Wall.glb',
-  'models/Center_Table.glb',
+  'models/Small_Carpet.glb',
+  'models/Coffee_Table.glb',
   'models/Frame.glb',
   'models/Plant.glb',
   'models/Window.glb',
   'models/Floor_Lamp.glb',
   'models/Accessories.glb',
   'models/Carpet.glb',
-  'models/Sofa.glb'
+  'models/Sofa.glb',
+  
 ];
 
 //Changing Material variants

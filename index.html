@@ -78,7 +78,7 @@
       border: none;
       outline: none;
       text-align: center;
-      margin-bottom: 10px;
+      /* margin-bottom: 19px; */
       margin-top: 20px;
       background-color: #ffffff;
       transition: background-color 0.3s;
@@ -102,6 +102,28 @@
       transform: scale(1.1);
     }
 
+    .image-name {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
+      transition: color 0.3s;
+      /* Adjust the color as needed */
+    }
+
+    .button:hover {
+      background-color: #4a4f54;
+    }
+
+    .button:hover .image-name {
+      transform: scale(1.1);
+      transition: transform 0.3s;
+      color: white;
+      /* Font color on hover */
+    }
+
+
     /* Spinner container */
     .spinner-container {
       position: fixed;
@@ -123,8 +145,13 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     /* Toggle switch styles */
@@ -134,7 +161,7 @@
       width: 60px;
       height: 34px;
       padding: auto;
-      bottom: 95%;
+      bottom: 94.2%;
       left: 70%;
     }
 
@@ -168,15 +195,15 @@
       border-radius: 50%;
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
       background-color: #FFA500;
     }
 
-    input:focus + .slider {
+    input:focus+.slider {
       box-shadow: 0 0 1px #FFA500;
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
       transform: translateX(26px);
     }
 
@@ -188,10 +215,9 @@
     .slider.round:before {
       border-radius: 50%;
     }
-
   </style>
   <script src="src/main.ts" defer type="module"></script>
-</head> 
+</head>
 
 <body>
   <div id="ui-container">
@@ -206,7 +232,7 @@
       <span class="slider round"></span>
     </label>
 
-  <!-- <button class="accordion accordion-button" id="dayNightToggle">Day ☀️/ Night 🌑</button> -->
+    <!-- <button class="accordion accordion-button" id="dayNightToggle">Day ☀️/ Night 🌑</button> -->
 
     <div class="accordion">
       <button class="accordion-button" onclick="toggleAccordion('Leather')">Leather</button>
@@ -215,18 +241,50 @@
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather1.png" data-model="Sofa" data-variant='Brown_Leather'
               alt="Leather 1">
+            <p class="image-name">Brown Leather</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather2.png" data-model="Sofa" data-variant='Blue_Leather'
               alt="Leather 2">
+            <p class="image-name">Blue Leather</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather3.png" data-model="Sofa" data-variant='Pattern_Leather'
               alt="Leather 3">
+            <p class="image-name">Pattern Leather</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather4.png" data-model="Sofa" data-variant='Orange_Leather'
               alt="Leather 4">
+            <p class="image-name">Orange Leather</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Fabric')">Fabric</button>
+      <div class="accordion-content" id="Fabric">
+        <div class="button-container">
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather1.png" data-model="Sofa" data-variant='Brown_Leather'
+              alt="Leather 1">
+            <p class="image-name">Brown Leather</p>
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather2.png" data-model="Sofa" data-variant='Blue_Leather'
+              alt="Leather 2">
+            <p class="image-name">Blue Leather</p>
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather3.png" data-model="Sofa" data-variant='Pattern_Leather'
+              alt="Leather 3">
+            <p class="image-name">Pattern Leather</p>
+          </button>
+          <button class="button">
+            <img src="/Thumbnails/Compressed/Leather4.png" data-model="Sofa" data-variant='Orange_Leather'
+              alt="Leather 4">
+            <p class="image-name">Orange Leather</p>
           </button>
         </div>
       </div>
@@ -237,16 +295,21 @@
       <div class="accordion-content" id="Metal">
         <div class="button-container">
           <button class="button">
-            <img src="/Thumbnails/Compressed/chrome.png" data-model="Center_Table" data-variant='Chrome' alt="chrome">
+            <img src="/Thumbnails/Compressed/chrome.png" data-model="Coffee_Table" data-variant='Chrome' alt="chrome">
+            <p class="image-name">Chrome</p>
           </button>
           <button class="button">
-            <img src="/Thumbnails/Compressed/steel.png" data-model="Center_Table" data-variant='Steel' alt="steel">
+            <img src="/Thumbnails/Compressed/steel.png" data-model="Coffee_Table" data-variant='Steel' alt="steel">
+            <p class="image-name">Steel</p>
           </button>
           <button class="button">
-            <img src="/Thumbnails/Compressed/copper.png" data-model="Center_Table" data-variant='Copper' alt="copper">
+            <img src="/Thumbnails/Compressed/copper.png" data-model="Coffee_Table" data-variant='Copper' alt="copper">
+            <p class="image-name">Copper</p>
           </button>
           <button class="button">
-            <img src="/Thumbnails/Compressed/aluminium.png" data-model="Center_Table" data-variant='Aluminium' alt="aluminium">
+            <img src="/Thumbnails/Compressed/aluminium.png" data-model="Coffee_Table" data-variant='Aluminium'
+              alt="aluminium">
+            <p class="image-name">Aluminium</p>
           </button>
         </div>
       </div>
@@ -259,18 +322,22 @@
           <button class="button">
             <img src="/Thumbnails/Compressed/frosted glass.png" data-model="Window" data-variant='Frosted_Glass'
               alt="frosted glass">
+            <p class="image-name">Frosted Glass</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/tinted glass.png" data-model="Window" data-variant='Tinted_Glass'
               alt="tinted glass">
+            <p class="image-name">Tinted Glass</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/shattered glass.png" data-model="Window" data-variant='Shattered_Glass'
               alt="shattered glass">
+            <p class="image-name">Shattered Glass</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/decorative glass.png" data-model="Window" data-variant='Decorative_Glass'
               alt="decorative glass">
+            <p class="image-name">Decorative Glass</p>
           </button>
         </div>
       </div>
@@ -281,20 +348,20 @@
       <div class="accordion-content" id="Wall">
         <div class="button-container">
           <button class="button">
-            <img src="/Thumbnails/Compressed/1.jpg" data-model="Wall" data-variant='Brown_Theme'
-              alt="Brown_Theme">
+            <img src="/Thumbnails/Compressed/1.jpg" data-model="Wall" data-variant='Brown_Theme' alt="Brown_Theme">
+            <p class="image-name">Antiquarian Brown Paint</p>
           </button>
           <button class="button">
-            <img src="/Thumbnails/Compressed/2.jpg" data-model="Wall" data-variant='Honey_Theme'
-              alt="Honey_Theme">
+            <img src="/Thumbnails/Compressed/2.jpg" data-model="Wall" data-variant='Honey_Theme' alt="Honey_Theme">
+            <p class="image-name">Honeydew Paint</p>
           </button>
           <button class="button">
-            <img src="/Thumbnails/Compressed/Pink.png" data-model="Wall" data-variant='Pink_Theme'
-              alt="Pink_Theme">
+            <img src="/Thumbnails/Compressed/Pink.png" data-model="Wall" data-variant='Pink_Theme' alt="Pink_Theme">
+            <p class="image-name">Synaptic Wallpaper</p>
           </button>
           <button class="button">
-            <img src="/Thumbnails/Compressed/Gold.png" data-model="Wall" data-variant='Gold_Theme'
-              alt="Gold_Theme">
+            <img src="/Thumbnails/Compressed/Gold.png" data-model="Wall" data-variant='Gold_Theme' alt="Gold_Theme">
+            <p class="image-name">Golden Floral Wallpaper</p>
           </button>
         </div>
       </div>
@@ -304,18 +371,23 @@
       <button class="accordion-button" onclick="toggleAccordion('Carpet')">Carpet</button>
       <div class="accordion-content" id="Carpet">
         <div class="button-container">
-          <input class="specificObjectToggle" type="checkbox" id="specificObjectToggle" checked>Add/Delete wall to wall Carpet
+          <input class="specificObjectToggle" type="checkbox" id="specificObjectToggle" checked>Add/Delete wall to wall
+          Carpet
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet1.png" data-model="Carpet" data-variant='Carpet1' alt="Carpet 1">
+            <p class="image-name">Hessian Carpet Slate Grey</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet2.png" data-model="Carpet" data-variant='Carpet2' alt="Carpet 2">
+            <p class="image-name">Carpet</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet3.png" data-model="Carpet" data-variant='Carpet3' alt="Carpet 3">
+            <p class="image-name">Carpet</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet4.png" data-model="Carpet" data-variant='Carpet4' alt="Carpet 4">
+            <p class="image-name">Hessian Carpet</p>
           </button>
         </div>
       </div>
@@ -327,20 +399,24 @@
         <div class="button-container">
           <button class="button">
             <img src="/Thumbnails/Compressed/Leminate.png" data-model="Floor" data-variant='Floor1' alt="Floor1">
+            <p class="image-name">Leminate Flooring</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Marble.png" data-model="Floor" data-variant='Floor2' alt="Floor2">
+            <p class="image-name">Marble Flooring</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Vinyl.png" data-model="Floor" data-variant='Floor3' alt="Floor3">
+            <p class="image-name">Vinyl Flooring</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Ceramic.png" data-model="Floor" data-variant='Floor4' alt="Floor4">
+            <p class="image-name">Ceramic Flooring</p>
           </button>
         </div>
       </div>
     </div>
-    
+
   </div>
 
   <div id="canvas-container"></div>
@@ -354,7 +430,7 @@
       accordionContent.style.display = (accordionContent.style.display === 'block') ? 'none' : 'block';
     }
 
-     // Function to toggle day and night light
+    // Function to toggle day and night light
     //  function toggleDayNight() {
     //   const canvasContainer = document.getElementById('canvas-container');
     //   canvasContainer.dispatchEvent(new CustomEvent('toggleDayNight'));
