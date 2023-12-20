@@ -8,8 +8,7 @@ import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 
 //@ts-ignore
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
@@ -23,7 +22,7 @@ let specificObject: THREE.Object3D | undefined;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff); // Set 3D scene's background color to white
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: false });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -37,16 +36,15 @@ const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
-// FXAA pass
-const fxaaPass = new ShaderPass(FXAAShader);
-fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
-composer.addPass(fxaaPass);
+// Replace the FXAA pass with SMAA pass
+const smaaPass = new SMAAPass(window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio());
+composer.addPass(smaaPass);
 
 // SSAO pass
 const ssaoPass = new SSAOPass(scene, camera, window.innerWidth, window.innerHeight);
-ssaoPass.kernelRadius = 32; // Adjust as needed
-ssaoPass.minDistance = 0.005; // Adjust as needed
-ssaoPass.maxDistance = 0.1; // Adjust as needed
+ssaoPass.kernelRadius = 16;
+ssaoPass.minDistance = 0.01;
+ssaoPass.maxDistance = 0.05;
 composer.addPass(ssaoPass);
 
 // Set the pixel ratio for the renderer
@@ -54,8 +52,8 @@ renderer.setPixelRatio(window.devicePixelRatio);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-controls.dampingFactor = 0.075;
-controls.screenSpacePanning = false;
+controls.dampingFactor = 0.05;
+// controls.screenSpacePanning = false;
 controls.maxPolarAngle = Math.PI / 2;
 const loader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -181,8 +179,8 @@ function loadModels(index: number) {
           l.power = 400;
           // l.position.z = -1;
           l.shadow.bias = -0.005;
-          l.shadow.mapSize.width = 2048;
-          l.shadow.mapSize.height = 2048;
+          l.shadow.mapSize.width = 1024;
+          l.shadow.mapSize.height = 1024;
           l.shadow.radius = 2.5;
         }
       });
