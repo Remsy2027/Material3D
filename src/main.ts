@@ -78,7 +78,7 @@ let isDayMode = false; // Initial mode is day
 // Function to add HDRI
 function setupHDRI() {
   const rgbeloader = new RGBELoader();
-  rgbeloader.load('hdri/gem_2.hdr', (hdri) => {
+  rgbeloader.load('hdri/Studio.hdr', (hdri) => {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
