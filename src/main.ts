@@ -53,6 +53,10 @@ composer.addPass(ssaoPass);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+controls.dampingFactor = 0.075;
+controls.screenSpacePanning = false;
+controls.maxPolarAngle = Math.PI / 2;
 const loader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
 const ktx2Loader = new KTX2Loader();
