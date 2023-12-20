@@ -10,7 +10,6 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass.js';
 
 //@ts-ignore
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
@@ -49,23 +48,6 @@ ssaoPass.kernelRadius = 32; // Adjust as needed
 ssaoPass.minDistance = 0.005; // Adjust as needed
 ssaoPass.maxDistance = 0.1; // Adjust as needed
 composer.addPass(ssaoPass);
-
-// Create and add the AfterimagePass to the composer
-const afterimagePass = new AfterimagePass();
-composer.addPass(afterimagePass);
-
-// Define a type for AfterimagePass uniforms
-interface AfterimagePassUniforms {
-  damp: { value: number };
-  texture: { value: THREE.Texture | null };
-}
-
-// Cast the pass to the defined type
-const afterimagePassTyped = afterimagePass as AfterimagePass & { uniforms: AfterimagePassUniforms };
-
-// Customize AfterimagePass settings
-afterimagePassTyped.uniforms.damp.value = 0.6; // Adjust the damping factor
-afterimagePassTyped.renderToScreen = true; // Render the final result to the screen
 
 // Set the pixel ratio for the renderer
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -281,7 +263,7 @@ if (dayNightToggle) {
       const modeSwitchStartTime = performance.now();
       // Switch to day mode (remove night lights, add day lights)
       addDirectionalLight(); // Add a new directional light for day mode      
-      renderer.toneMappingExposure = 0.5;
+      renderer.toneMappingExposure = 0.6;
 
       for (const modelName in loadedModelsMap) {
         const modelData = loadedModelsMap[modelName];
@@ -314,7 +296,7 @@ if (dayNightToggle) {
       // Switch to night mode (remove day lights, remove directional light)
 
       removeDirectionalLight();
-      renderer.toneMappingExposure = 0.25;
+      renderer.toneMappingExposure = 0.3;
 
       for (const modelName in loadedModelsMap) {
         const modelData = loadedModelsMap[modelName];
