@@ -334,7 +334,7 @@ if (dayNightToggle) {
   console.error("Element with id 'dayNightToggle' not found.");
 }
 
-const stats = Stats();
+const stats = new Stats();
 document.body.appendChild(stats.dom);
 
 function animate() {
