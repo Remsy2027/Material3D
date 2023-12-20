@@ -23,7 +23,7 @@ let specificObject: THREE.Object3D | undefined;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff); // Set 3D scene's background color to white
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -267,7 +267,7 @@ if (dayNightToggle) {
       const modeSwitchStartTime = performance.now();
       // Switch to day mode (remove night lights, add day lights)
       addDirectionalLight(); // Add a new directional light for day mode      
-      renderer.toneMappingExposure = 0.6;
+      renderer.toneMappingExposure = 0.7;
 
       for (const modelName in loadedModelsMap) {
         const modelData = loadedModelsMap[modelName];
