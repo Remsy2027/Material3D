@@ -354,7 +354,7 @@ function animate() {
 camera.position.set(-3.5, 2, 3.5);
 // camera.lookAt(0, 0.9, 0);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
 function render() {
