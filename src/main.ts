@@ -9,6 +9,15 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
+import { SubsurfaceScatteringShader } from 'three/examples/jsm/shaders/SubsurfaceScatteringShader';
+import {
+  RepeatWrapping,
+  ShaderMaterial,
+  TextureLoader,
+  UniformsUtils,
+  Vector3,
+  DoubleSide,
+} from 'three';
 
 //@ts-ignore
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
@@ -196,6 +205,14 @@ function loadModels(index: number) {
       gltf.scene.position.set(0, -0.5, 0);
       // gltf.scene.scale.set(1.1, 1, 1.1);
       scene.add(gltf.scene);
+
+      // Example: Replace material of 'FloorLamp_Cover' with subsurface scattering material
+    if (modelName === 'Floor_Lamp') {
+      const FloorLamp_Cover = 'FloorLamp_Cover';
+      const newMaterial = createSubsurfaceMaterial(); // Or any other material creation logic
+      replaceMaterial(gltf.scene, FloorLamp_Cover, newMaterial);
+    }
+
       console.log(`${modelPath}: Loaded successfully`);
 
       // Load the next model recursively
@@ -214,6 +231,68 @@ function loadModels(index: number) {
 
   // Show progress bar container
   // progressContainer.style.display = 'block';
+}
+
+function createSubsurfaceMaterial() {
+  const texLoader = new TextureLoader();
+  const subTexture = texLoader.load(
+    './textures/subTexture.png'
+  );
+  subTexture.wrapS = subTexture.wrapT = RepeatWrapping;
+  subTexture.repeat.set(4, 4);
+
+  const shader = SubsurfaceScatteringShader;
+  const uniforms = UniformsUtils.clone(shader.uniforms) as {
+    [uniform: string]: { value: any };
+  };
+
+  // Adjust the color to a more neutral tone
+  uniforms.diffuse.value = new Vector3(0.9, 0.7, 0.5);
+  uniforms.shininess.value = 10;
+
+  uniforms.thicknessMap.value = subTexture;
+  uniforms.thicknessColor.value = new Vector3(0.7372549019607844, 0.5529411764705883, 0.6431372549019608);
+  uniforms.thicknessDistortion.value = 0.1;
+  uniforms.thicknessAmbient.value = 0.4;
+  uniforms.thicknessAttenuation.value = 0.7;
+  uniforms.thicknessPower.value = 10.0;
+  uniforms.thicknessScale.value = 1;
+
+  const subMaterial = new ShaderMaterial({
+    uniforms,
+    vertexShader: shader.vertexShader,
+    fragmentShader: shader.fragmentShader,
+    lights: true,
+  });
+
+  subMaterial.side = DoubleSide; // Render on both sides of the geometry
+
+  return subMaterial;
+}
+
+
+
+function replaceMaterial(model: THREE.Object3D, materialName: string, newMaterial: THREE.Material) {
+  model.traverse((child) => {
+    if ((child as THREE.Mesh).isMesh) {
+      const mesh = child as THREE.Mesh;
+
+      // Check if the mesh name matches the specified materialName
+      if (mesh.name === materialName) {
+        console.log(`Replacing material for ${materialName}`);
+        mesh.material = newMaterial;
+      }
+    }
+  });
+}
+
+
+// Example: Replace material of 'FloorLamp_Cover' with subsurface scattering material
+const subsurfaceScatteringMaterial = createSubsurfaceMaterial();
+
+// Ensure that specificObject is defined before replacing its material
+if (specificObject) {
+  replaceMaterial(specificObject, 'FloorLamp_Cover', subsurfaceScatteringMaterial);
 }
 
 // Start loading models
