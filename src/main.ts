@@ -28,7 +28,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.25;
-renderer.setSize(window.innerWidth * 0.75, window.innerHeight);
+renderer.setSize(window.innerWidth * 0.8, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 //Anti Aliasing
