@@ -71,7 +71,7 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
-let scaleFactor = 2;
+let scaleFactor = 1;
 
 // Function to add HDRI
 function setupHDRI() {
