@@ -16,7 +16,7 @@ import {
   TextureLoader,
   UniformsUtils,
   Vector3,
-  Color,
+  DoubleSide,
 } from 'three';
 
 //@ts-ignore
@@ -236,7 +236,7 @@ function loadModels(index: number) {
 function createSubsurfaceMaterial() {
   const texLoader = new TextureLoader();
   const subTexture = texLoader.load(
-    'https://d3t7cnf9sa42u5.cloudfront.net/textures/subSurface.jpg'
+    './textures/subTexture.png'
   );
   subTexture.wrapS = subTexture.wrapT = RepeatWrapping;
   subTexture.repeat.set(4, 4);
@@ -245,11 +245,13 @@ function createSubsurfaceMaterial() {
   const uniforms = UniformsUtils.clone(shader.uniforms) as {
     [uniform: string]: { value: any };
   };
-  uniforms.diffuse.value = new Vector3(0.8, 0.3, 0.2);
+
+  // Adjust the color to a more neutral tone
+  uniforms.diffuse.value = new Vector3(0.9, 0.7, 0.5);
   uniforms.shininess.value = 10;
 
   uniforms.thicknessMap.value = subTexture;
-  uniforms.thicknessColor.value = new Vector3(0.1, 0, 0);
+  uniforms.thicknessColor.value = new Vector3(0.7372549019607844, 0.5529411764705883, 0.6431372549019608);
   uniforms.thicknessDistortion.value = 0.1;
   uniforms.thicknessAmbient.value = 0.4;
   uniforms.thicknessAttenuation.value = 0.7;
@@ -262,8 +264,12 @@ function createSubsurfaceMaterial() {
     fragmentShader: shader.fragmentShader,
     lights: true,
   });
+
+  subMaterial.side = DoubleSide; // Render on both sides of the geometry
+
   return subMaterial;
 }
+
 
 
 function replaceMaterial(model: THREE.Object3D, materialName: string, newMaterial: THREE.Material) {
