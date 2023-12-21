@@ -107,7 +107,6 @@ const modelPaths = [
   'models/Accessories.glb',
   'models/Carpet.glb',
   'models/Sofa.glb',
-
 ];
 
 //Changing Material variants
