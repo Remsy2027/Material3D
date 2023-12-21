@@ -76,7 +76,7 @@ let scaleFactor = 2;
 // Function to add HDRI
 function setupHDRI() {
   const rgbeloader = new RGBELoader();
-  rgbeloader.load('hdri/Studio.hdr', (hdri) => {
+  rgbeloader.load('hdri/gem_2.hdr', (hdri) => {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;

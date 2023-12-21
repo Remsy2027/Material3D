@@ -119,7 +119,8 @@
 
     .image-name {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 7.5px;
+      margin-bottom: 2.5px;
       font-size: 16px;
       color: #000000;
       font-weight: 500;
@@ -257,22 +258,22 @@
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather1.png" data-model="Sofa" data-variant='Brown_Leather'
               alt="Leather 1">
-            <p class="image-name">Brown Leather</p>
+            <p class="image-name">Brown</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather2.png" data-model="Sofa" data-variant='Blue_Leather'
               alt="Leather 2">
-            <p class="image-name">Blue Leather</p>
+            <p class="image-name">Blue</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather3.png" data-model="Sofa" data-variant='Pattern_Leather'
               alt="Leather 3">
-            <p class="image-name">Pattern Leather</p>
+            <p class="image-name">Pattern</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Leather4.png" data-model="Sofa" data-variant='Orange_Leather'
               alt="Leather 4">
-            <p class="image-name">Orange Leather</p>
+            <p class="image-name">Orange</p>
           </button>
         </div>
       </div>
@@ -285,22 +286,30 @@
           <button class="button">
             <img src="/Thumbnails/Compressed/Dark Fabric.png" data-model="Sofa" data-variant='Dark_Fabric'
               alt="Fabric 1">
-            <p class="image-name">Dark Fabric</p>
+            <p class="image-name">Dark</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Pink Fabric.png" data-model="Sofa" data-variant='Pink_Fabric'
               alt="Fabric 2">
-            <p class="image-name">Pink Fabric</p>
+            <p class="image-name">Pink</p>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Velvet')">Velvet</button>
+      <div class="accordion-content" id="Velvet">
+        <div class="button-container">
           <button class="button">
             <img src="/Thumbnails/Compressed/Red Velvet.png" data-model="Sofa" data-variant='Red_Velvet'
               alt="Velvet 1">
-            <p class="image-name">Red Velvet</p>
+            <p class="image-name">Red</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Sage Blue Velvet.png" data-model="Sofa" data-variant='Sage_Blue_Velvet'
               alt="Velvet 2">
-            <p class="image-name">Sage Blue Velvet</p>
+            <p class="image-name">Sage Blue</p>
           </button>
         </div>
       </div>
@@ -320,7 +329,7 @@
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/copper.png" data-model="Coffee_Table" data-variant='Copper' alt="copper">
-            <p class="image-name">Copper</p>
+            <p class="image-name">Wrought Iron</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/aluminium.png" data-model="Coffee_Table" data-variant='Aluminium'
@@ -338,46 +347,54 @@
           <button class="button">
             <img src="/Thumbnails/Compressed/frosted glass.png" data-model="Window" data-variant='Frosted_Glass'
               alt="frosted glass">
-            <p class="image-name">Frosted Glass</p>
+            <p class="image-name">Frosted</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/tinted glass.png" data-model="Window" data-variant='Tinted_Glass'
               alt="tinted glass">
-            <p class="image-name">Tinted Glass</p>
+            <p class="image-name">Tinted</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/shattered glass.png" data-model="Window" data-variant='Shattered_Glass'
               alt="shattered glass">
-            <p class="image-name">Shattered Glass</p>
+            <p class="image-name">Shattered</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/decorative glass.png" data-model="Window" data-variant='Decorative_Glass'
               alt="decorative glass">
-            <p class="image-name">Decorative Glass</p>
+            <p class="image-name">Decorative</p>
           </button>
         </div>
       </div>
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Wall')">Paints & Wallpapers</button>
+      <button class="accordion-button" onclick="toggleAccordion('Wall')">Paints</button>
       <div class="accordion-content" id="Wall">
         <div class="button-container">
           <button class="button">
             <img src="/Thumbnails/Compressed/1.jpg" data-model="Wall" data-variant='Brown_Theme' alt="Brown_Theme">
-            <p class="image-name">Antiquarian Brown Paint</p>
+            <p class="image-name">Antiquarian Brown</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/2.jpg" data-model="Wall" data-variant='Honey_Theme' alt="Honey_Theme">
-            <p class="image-name">Honeydew Paint</p>
+            <p class="image-name">Honeydew Melon</p>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-button" onclick="toggleAccordion('Wall')">Wallpapers</button>
+      <div class="accordion-content" id="Wall">
+        <div class="button-container">
           <button class="button">
             <img src="/Thumbnails/Compressed/Pink.png" data-model="Wall" data-variant='Pink_Theme' alt="Pink_Theme">
-            <p class="image-name">Synaptic Wallpaper</p>
+            <p class="image-name">Synaptic</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Gold.png" data-model="Wall" data-variant='Gold_Theme' alt="Gold_Theme">
-            <p class="image-name">Golden Floral Wallpaper</p>
+            <p class="image-name">Golden Floral</p>
           </button>
         </div>
       </div>
@@ -391,19 +408,19 @@
           Carpet
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet1.png" data-model="Carpet" data-variant='Carpet1' alt="Carpet 1">
-            <p class="image-name">Hessian Carpet Slate Grey</p>
+            <p class="image-name">Tailored Essence</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet2.png" data-model="Carpet" data-variant='Carpet2' alt="Carpet 2">
-            <p class="image-name">Carpet</p>
+            <p class="image-name">Linington Manor</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet3.png" data-model="Carpet" data-variant='Carpet3' alt="Carpet 3">
-            <p class="image-name">Carpet</p>
+            <p class="image-name">Nature's Elegance</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Carpet4.png" data-model="Carpet" data-variant='Carpet4' alt="Carpet 4">
-            <p class="image-name">Hessian Carpet</p>
+            <p class="image-name">Sculptured Touch</p>
           </button>
         </div>
       </div>
@@ -415,19 +432,19 @@
         <div class="button-container">
           <button class="button">
             <img src="/Thumbnails/Compressed/Leminate.png" data-model="Floor" data-variant='Floor1' alt="Floor1">
-            <p class="image-name">Leminate Flooring</p>
+            <p class="image-name">Laminate</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Marble.png" data-model="Floor" data-variant='Floor2' alt="Floor2">
-            <p class="image-name">Marble Flooring</p>
+            <p class="image-name">Marble</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Vinyl.png" data-model="Floor" data-variant='Floor3' alt="Floor3">
-            <p class="image-name">Vinyl Flooring</p>
+            <p class="image-name">Vinyl</p>
           </button>
           <button class="button">
             <img src="/Thumbnails/Compressed/Ceramic.png" data-model="Floor" data-variant='Floor4' alt="Floor4">
-            <p class="image-name">Ceramic Flooring</p>
+            <p class="image-name">Granite</p>
           </button>
         </div>
       </div>
