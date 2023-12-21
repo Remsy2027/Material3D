@@ -47,9 +47,6 @@ ssaoPass.minDistance = 0.01;
 ssaoPass.maxDistance = 0.05;
 composer.addPass(ssaoPass);
 
-// Set the pixel ratio for the renderer
-renderer.setPixelRatio(window.devicePixelRatio);
-
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 controls.dampingFactor = 0.05;
@@ -59,8 +56,8 @@ const loader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
 const ktx2Loader = new KTX2Loader();
 
-ktx2Loader.setTranscoderPath( '/basis/');
-ktx2Loader.detectSupport( renderer );
+ktx2Loader.setTranscoderPath('/basis/');
+ktx2Loader.detectSupport(renderer);
 
 dracoLoader.setDecoderPath('/draco/');
 
@@ -74,6 +71,7 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
+let scaleFactor = 2;
 
 // Function to add HDRI
 function setupHDRI() {
@@ -100,7 +98,7 @@ const modelPaths = [
   'models/Accessories.glb',
   'models/Carpet.glb',
   'models/Sofa.glb',
-  
+
 ];
 
 //Changing Material variants
@@ -145,9 +143,19 @@ function loadModels(index: number) {
     // All models loaded
     console.log('All models loaded successfully.');
     progressContainer.style.display = 'none';
+
+    // After loading is complete, set the desired pixel ratio
+    const finalPixelRatio = window.devicePixelRatio * scaleFactor;
+    renderer.setPixelRatio(finalPixelRatio);
+    composer.setSize(window.innerWidth * 0.75, window.innerHeight);
+
     // addDirectionalLight();
     return;
   }
+
+  // While loading, set a different pixel ratio
+  renderer.setPixelRatio(0.25);
+  composer.setSize(window.innerWidth * 0.75, window.innerHeight);
 
   const modelPath = modelPaths[index];
   // console.log(modelPath)
@@ -256,76 +264,76 @@ if (dayNightToggle) {
   dayNightToggle.addEventListener('change', () => {
     const toggleStartTime = performance.now();
     isDayMode = !isDayMode;
-    
+
     // Show the spinner at the beginning
     progressContainer.style.display = 'flex';
     // Use requestAnimationFrame to ensure the spinner is rendered before proceeding
     requestAnimationFrame(() => {
-    if (isDayMode) {
-      const modeSwitchStartTime = performance.now();
-      // Switch to day mode (remove night lights, add day lights)
-      addDirectionalLight(); // Add a new directional light for day mode      
-      renderer.toneMappingExposure = 0.7;
+      if (isDayMode) {
+        const modeSwitchStartTime = performance.now();
+        // Switch to day mode (remove night lights, add day lights)
+        addDirectionalLight(); // Add a new directional light for day mode      
+        renderer.toneMappingExposure = 0.7;
 
-      for (const modelName in loadedModelsMap) {
-        const modelData = loadedModelsMap[modelName];
-        if (modelData.scene) {
-          modelData.scene.traverse(function (child: THREE.Object3D) {
-            if ((child as THREE.Light).isLight) {
-              let l = child as THREE.PointLight;
-              l.power = 0;
-            }
-          });
+        for (const modelName in loadedModelsMap) {
+          const modelData = loadedModelsMap[modelName];
+          if (modelData.scene) {
+            modelData.scene.traverse(function (child: THREE.Object3D) {
+              if ((child as THREE.Light).isLight) {
+                let l = child as THREE.PointLight;
+                l.power = 0;
+              }
+            });
+          }
         }
+
+        // Introduce a delay before logging the end time for mode switch
+        setTimeout(() => {
+          const modeSwitchEndTime = performance.now(); // Record the end time
+          const modeSwitchDuration = modeSwitchEndTime - modeSwitchStartTime; // Calculate the duration
+          console.log(`Day mode switch completed in ${modeSwitchDuration} milliseconds`);
+
+          // Hide the spinner after a minimum duration
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+          }, 0); // Adjust the minimum duration as needed
+        }, 0); // Adjust the delay time as needed
+
+
+      } else {
+
+        const modeSwitchStartTime = performance.now();
+        // Switch to night mode (remove day lights, remove directional light)
+
+        removeDirectionalLight();
+        renderer.toneMappingExposure = 0.3;
+
+        for (const modelName in loadedModelsMap) {
+          const modelData = loadedModelsMap[modelName];
+          if (modelData.scene) {
+            modelData.scene.traverse(function (child: THREE.Object3D) {
+              if ((child as THREE.Light).isLight) {
+                let l = child as THREE.PointLight;
+                l.power = 400;
+              }
+            });
+          }
+        }
+
+        // Introduce a delay before logging the end time for mode switch
+        setTimeout(() => {
+          const modeSwitchEndTime = performance.now(); // Record the end time
+          const modeSwitchDuration = modeSwitchEndTime - modeSwitchStartTime; // Calculate the duration
+          console.log(`Night mode switch completed in ${modeSwitchDuration} milliseconds`);
+
+          // Hide the spinner after a minimum duration
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+          }, 0); // Adjust the minimum duration as needed
+        }, 0); // Adjust the delay time as needed
       }
 
-      // Introduce a delay before logging the end time for mode switch
-      setTimeout(() => {
-        const modeSwitchEndTime = performance.now(); // Record the end time
-        const modeSwitchDuration = modeSwitchEndTime - modeSwitchStartTime; // Calculate the duration
-        console.log(`Day mode switch completed in ${modeSwitchDuration} milliseconds`);
-
-        // Hide the spinner after a minimum duration
-        setTimeout(() => {
-          progressContainer.style.display = 'none';
-        }, 0); // Adjust the minimum duration as needed
-      }, 0); // Adjust the delay time as needed
-
-
-    } else {
-
-      const modeSwitchStartTime = performance.now();
-      // Switch to night mode (remove day lights, remove directional light)
-
-      removeDirectionalLight();
-      renderer.toneMappingExposure = 0.3;
-
-      for (const modelName in loadedModelsMap) {
-        const modelData = loadedModelsMap[modelName];
-        if (modelData.scene) {
-          modelData.scene.traverse(function (child: THREE.Object3D) {
-            if ((child as THREE.Light).isLight) {
-              let l = child as THREE.PointLight;
-              l.power = 400;
-            }
-          });
-        }
-      }
-
-      // Introduce a delay before logging the end time for mode switch
-      setTimeout(() => {
-        const modeSwitchEndTime = performance.now(); // Record the end time
-        const modeSwitchDuration = modeSwitchEndTime - modeSwitchStartTime; // Calculate the duration
-        console.log(`Night mode switch completed in ${modeSwitchDuration} milliseconds`);
-
-        // Hide the spinner after a minimum duration
-        setTimeout(() => {
-          progressContainer.style.display = 'none';
-        }, 0); // Adjust the minimum duration as needed
-      }, 0); // Adjust the delay time as needed
-    }
-
-    const toggleEndTime = performance.now(); // Record the end time
+      const toggleEndTime = performance.now(); // Record the end time
       const toggleDuration = toggleEndTime - toggleStartTime; // Calculate the duration
       console.log(`Day/Night toggle completed in ${toggleDuration} milliseconds`);
     });
