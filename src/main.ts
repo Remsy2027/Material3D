@@ -250,7 +250,7 @@ function createSubsurfaceMaterial() {
   uniforms.shininess.value = 10;
 
   uniforms.thicknessMap.value = subTexture;
-  uniforms.thicknessColor.value = new Vector3(0.7372549019607844, 0.5529411764705883, 0.6431372549019608);
+  uniforms.thicknessColor.value = new Vector3(0.5607843137254902, 0.26666666666666666, 0.054901960784313725);
   uniforms.thicknessDistortion.value = 0.1;
   uniforms.thicknessAmbient.value = 0.4;
   uniforms.thicknessAttenuation.value = 0.7;
