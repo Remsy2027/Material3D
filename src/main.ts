@@ -80,7 +80,7 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
-let scaleFactor = 0.5;
+let scaleFactor = 1;
 
 // Function to add HDRI
 function setupHDRI() {
@@ -89,7 +89,8 @@ function setupHDRI() {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
-    scene.background = new THREE.Color("#000");
+    // scene.background = new THREE.Color("#000");
+    updateSceneBackgroundColor();
   });
 }
 
@@ -107,6 +108,7 @@ const modelPaths = [
   'models/Accessories.glb',
   'models/Carpet.glb',
   'models/Sofa.glb',
+  // 'models/Sofa-ktx.glb',
 ];
 
 //Changing Material variants
@@ -343,6 +345,8 @@ if (dayNightToggle) {
     const toggleStartTime = performance.now();
     isDayMode = !isDayMode;
 
+    updateSceneBackgroundColor();
+
     // Show the spinner at the beginning
     progressContainer.style.display = 'flex';
     // Use requestAnimationFrame to ensure the spinner is rendered before proceeding
@@ -459,6 +463,12 @@ const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
 gridMesh.rotation.x = -Math.PI / 2; // Rotate the grid to be horizontal
 gridMesh.position.y = -0.51; // Adjust the Y position to be just below other objects
 scene.add(gridMesh);
+
+function updateSceneBackgroundColor() {
+  // Set the scene background color based on the initial day/night mode
+  const initialBackgroundColor = isDayMode ? new THREE.Color(0xffffff) : new THREE.Color(0x000000);
+  scene.background = initialBackgroundColor;
+}
 
 function render() {
   renderer.render(scene, camera);
