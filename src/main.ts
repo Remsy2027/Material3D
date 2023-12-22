@@ -80,7 +80,7 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
-let scaleFactor = 1;
+let scaleFactor = 0.5;
 
 // Function to add HDRI
 function setupHDRI() {
@@ -89,7 +89,7 @@ function setupHDRI() {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
-    scene.background = myhdr;
+    scene.background = new THREE.Color("#000");
   });
 }
 
@@ -440,6 +440,25 @@ camera.position.set(-3.5, 2, 3.5);
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
+
+const gridSize = 10; // Adjust the size of the grid
+const gridDivisions = 10; // Adjust the number of divisions in the grid
+
+// Initial grid color (day mode)
+let gridColor = 0x000000;
+
+const gridGeometry = new THREE.PlaneGeometry(gridSize, gridSize, gridDivisions, gridDivisions);
+const gridMaterial = new THREE.MeshBasicMaterial({
+  color: gridColor, // Set the initial grid color
+  wireframe: true, // Display the grid as wireframe
+  transparent: true,
+  opacity: 0.2, // Adjust the opacity of the grid
+});
+
+const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
+gridMesh.rotation.x = -Math.PI / 2; // Rotate the grid to be horizontal
+gridMesh.position.y = -0.51; // Adjust the Y position to be just below other objects
+scene.add(gridMesh);
 
 function render() {
   renderer.render(scene, camera);
