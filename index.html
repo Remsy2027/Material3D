@@ -257,7 +257,7 @@
     <!-- <button class="accordion accordion-button" id="dayNightToggle">Day ☀️/ Night 🌑</button> -->
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Leather')">Leather</button>
+      <button class="accordion-button" data-target="Leather" onclick="toggleAccordion('Leather')">Leather</button>
       <div class="accordion-content" id="Leather">
         <div class="button-container">
           <button class="button">
@@ -285,7 +285,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Fabric')">Fabric</button>
+      <button class="accordion-button" data-target="Fabric" onclick="toggleAccordion('Fabric')">Fabric</button>
       <div class="accordion-content" id="Fabric">
         <div class="button-container">
           <button class="button">
@@ -303,7 +303,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Velvet')">Velvet</button>
+      <button class="accordion-button" data-target="Velvet" onclick="toggleAccordion('Velvet')">Velvet</button>
       <div class="accordion-content" id="Velvet">
         <div class="button-container">
           <button class="button">
@@ -321,7 +321,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Metal')">Metal</button>
+      <button class="accordion-button" data-target="Metal" onclick="toggleAccordion('Metal')">Metal</button>
       <div class="accordion-content" id="Metal">
         <div class="button-container">
           <button class="button">
@@ -346,7 +346,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Glass')">Glass</button>
+      <button class="accordion-button" data-target="Glass" onclick="toggleAccordion('Glass')">Glass</button>
       <div class="accordion-content" id="Glass">
         <div class="button-container">
           <button class="button">
@@ -374,7 +374,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Paints')">Paints</button>
+      <button class="accordion-button" data-target="Paints" onclick="toggleAccordion('Paints')">Paints</button>
       <div class="accordion-content" id="Paints">
         <div class="button-container">
           <button class="button">
@@ -390,7 +390,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Wallpapers')">Wallpapers</button>
+      <button class="accordion-button" data-target="Wallpapers" onclick="toggleAccordion('Wallpapers')">Wallpapers</button>
       <div class="accordion-content" id="Wallpapers">
         <div class="button-container">
           <button class="button">
@@ -406,7 +406,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Carpet')">Carpet</button>
+      <button class="accordion-button" data-target="Carpet" onclick="toggleAccordion('Carpet')">Carpet</button>
       <div class="accordion-content" id="Carpet">
         <div class="button-container">
           <input class="specificObjectToggle" type="checkbox" id="specificObjectToggle" checked>Add/Delete wall to wall
@@ -432,7 +432,7 @@
     </div>
 
     <div class="accordion">
-      <button class="accordion-button" onclick="toggleAccordion('Flooring')">Flooring</button>
+      <button class="accordion-button" data-target="Flooring" onclick="toggleAccordion('Flooring')">Flooring</button>
       <div class="accordion-content" id="Flooring">
         <div class="button-container">
           <button class="button">
@@ -464,12 +464,12 @@
   <script>
     // Function to toggle accordion content
     function toggleAccordion(accordionId) {
-      const accordionContent = document.getElementById(accordionId);
-      accordionContent.style.display = (accordionContent.style.display === 'block') ? 'none' : 'block';
+  const accordionContent = document.getElementById(accordionId);
+  accordionContent.style.display = (accordionContent.style.display === 'block') ? 'none' : 'block';
 
-      const accordionButton = document.querySelector(`.accordion-button[data-target="${accordionId}"]`);
-      accordionButton.classList.toggle('active');
-    }
+  const accordionButton = document.querySelector(`.accordion-button[data-target="${accordionId}"]`);
+  accordionButton.classList.toggle('active');
+}
 
     // Function to toggle day and night light
     //  function toggleDayNight() {

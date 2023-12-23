@@ -10,19 +10,25 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { SubsurfaceScatteringShader } from 'three/examples/jsm/shaders/SubsurfaceScatteringShader';
-import {
-  RepeatWrapping,
-  ShaderMaterial,
-  TextureLoader,
-  UniformsUtils,
-  Vector3,
-  DoubleSide,
-} from 'three';
+import { RepeatWrapping, ShaderMaterial, TextureLoader, UniformsUtils, Vector3, DoubleSide } from 'three';
 
 //@ts-ignore
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
 //@ts-ignore
 import GLTFMaterialsVariantsExtension from 'three-gltf-extensions/loaders/KHR_materials_variants/KHR_materials_variants.js';
+
+const modelPaths = [
+  'https://d2629xvaofl3d3.cloudfront.net/Wall.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Floor.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Frame.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Plant.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Window.glb',
+  'models/Floor_Lamp.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Accessories.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Coffee_Table.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Carpet.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Sofa.glb',
+];
 
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
 const specificObjectToggleCheckbox = document.getElementById('specificObjectToggle') as HTMLInputElement;
@@ -80,7 +86,7 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
-let scaleFactor = 1;
+let scaleFactor = 2;
 
 // Function to add HDRI
 function setupHDRI() {
@@ -89,27 +95,12 @@ function setupHDRI() {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
-    // scene.background = new THREE.Color("#000");
-    updateSceneBackgroundColor();
+    scene.background = new THREE.Color("#000");
   });
 }
 
 setupHDRI();
 
-const modelPaths = [
-  'models/Floor.glb',
-  'models/Wall.glb',
-  'models/Small_Carpet.glb',
-  'models/Coffee_Table.glb',
-  'models/Frame.glb',
-  'models/Plant.glb',
-  'models/Window.glb',
-  'models/Floor_Lamp.glb',
-  'models/Accessories.glb',
-  'models/Carpet.glb',
-  'models/Sofa.glb',
-  // 'models/Sofa-ktx.glb',
-];
 
 //Changing Material variants
 const loadedModelsMap: any = {}
@@ -133,15 +124,15 @@ Array.from(buttonArr).forEach(button => {
             modelData.scene,
             variantName
           );
-          console.log(`Selected variant "${variantName}" for model "${selectedModel}"`);
+          // console.log(`Selected variant "${variantName}" for model "${selectedModel}"`);
         } catch (error) {
-          console.error(`Error selecting variant: ${error}`);
+          // console.error(`Error selecting variant: ${error}`);
         }
       } else {
-        console.error(`Select variant function not found for model "${selectedModel}"`);
+        // console.error(`Select variant function not found for model "${selectedModel}"`);
       }
     } else {
-      console.error(`Model data not found for "${selectedModel}"`);
+      // console.error(`Model data not found for "${selectedModel}"`);
     }
   });
 });
@@ -151,7 +142,7 @@ function loadModels(index: number) {
   // console.log('started loading')
   if (index >= modelPaths.length) {
     // All models loaded
-    console.log('All models loaded successfully.');
+    // console.log('All models loaded successfully.');
     progressContainer.style.display = 'none';
 
     // After loading is complete, set the desired pixel ratio
@@ -214,13 +205,13 @@ function loadModels(index: number) {
       replaceMaterial(gltf.scene, FloorLamp_Cover, newMaterial);
     }
 
-      console.log(`${modelPath}: Loaded successfully`);
+      // console.log(`${modelPath}: Loaded successfully`);
 
       // Load the next model recursively
       loadModels(index + 1);
     },
-    (xhr) => {
-      console.log(`${modelPath}: ${(xhr.loaded / xhr.total) * 100}% loaded`);
+    () => {
+      // console.log(`${modelPath}: ${(xhr.loaded / xhr.total) * 100}% loaded`);
       // progressBar.style.width = `${progress}%`;
       // console.log(`${modelPath}: ${progress}% loaded`);
     },
@@ -280,7 +271,7 @@ function replaceMaterial(model: THREE.Object3D, materialName: string, newMateria
 
       // Check if the mesh name matches the specified materialName
       if (mesh.name === materialName) {
-        console.log(`Replacing material for ${materialName}`);
+        // console.log(`Replacing material for ${materialName}`);
         mesh.material = newMaterial;
       }
     }
@@ -309,7 +300,7 @@ if (specificObjectToggleCheckbox) {
     }
   });
 } else {
-  console.error("Element with id 'specificObjectToggle' not found.");
+  // console.error("Element with id 'specificObjectToggle' not found.");
 }
 
 // Function to add a directional light
@@ -345,8 +336,6 @@ if (dayNightToggle) {
     const toggleStartTime = performance.now();
     isDayMode = !isDayMode;
 
-    updateSceneBackgroundColor();
-
     // Show the spinner at the beginning
     progressContainer.style.display = 'flex';
     // Use requestAnimationFrame to ensure the spinner is rendered before proceeding
@@ -356,6 +345,9 @@ if (dayNightToggle) {
         // Switch to day mode (remove night lights, add day lights)
         addDirectionalLight(); // Add a new directional light for day mode      
         renderer.toneMappingExposure = 0.7;
+
+        // Set the background color to white
+        scene.background = new THREE.Color(0xffffff);
 
         for (const modelName in loadedModelsMap) {
           const modelData = loadedModelsMap[modelName];
@@ -390,6 +382,9 @@ if (dayNightToggle) {
         removeDirectionalLight();
         renderer.toneMappingExposure = 0.3;
 
+        // Set the background color to black
+        scene.background = new THREE.Color(0x000000);
+
         for (const modelName in loadedModelsMap) {
           const modelData = loadedModelsMap[modelName];
           if (modelData.scene) {
@@ -421,7 +416,7 @@ if (dayNightToggle) {
     });
   });
 } else {
-  console.error("Element with id 'dayNightToggle' not found.");
+  // console.error("Element with id 'dayNightToggle' not found.");
 }
 
 const stats = new Stats();
@@ -463,12 +458,6 @@ const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
 gridMesh.rotation.x = -Math.PI / 2; // Rotate the grid to be horizontal
 gridMesh.position.y = -0.51; // Adjust the Y position to be just below other objects
 scene.add(gridMesh);
-
-function updateSceneBackgroundColor() {
-  // Set the scene background color based on the initial day/night mode
-  const initialBackgroundColor = isDayMode ? new THREE.Color(0xffffff) : new THREE.Color(0x000000);
-  scene.background = initialBackgroundColor;
-}
 
 function render() {
   renderer.render(scene, camera);
