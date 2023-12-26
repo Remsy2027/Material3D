@@ -25,11 +25,12 @@ const modelPaths = [
   'https://d2629xvaofl3d3.cloudfront.net/Frame.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Plant.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Window.glb',
-  'models/Floor_Lamp.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Floor_Lamp.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Accessories.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Coffee_Table.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Carpet.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Sofa.glb',
+  // 'models/Sofa.glb'
 ];
 
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
@@ -124,8 +125,9 @@ Array.from(buttonArr).forEach(button => {
     const selectedModel = target.dataset.model;
     const variantName = target.dataset.variant!;
 
-    // console.log(loadedModelsMap);
-    // console.log(variantName);
+    console.log(loadedModelsMap);
+    console.log(variantName);
+    console.log(selectedModel);
 
     if (selectedModel && loadedModelsMap[selectedModel]) {
       const modelData = loadedModelsMap[selectedModel];
@@ -174,15 +176,18 @@ function loadModels(index: number) {
   // console.log(modelPath)
   loader.load(modelPath,
     function (gltf) {
+      console.log(`Loaded model from ${modelPath}`, gltf);
       // console.log(modelPath)
       // console.log(gltf, index)
-      const modelName = modelPath.split('/')[1].split('.')[0]
+      const modelName = modelPath.split('/')[3].split('.')[0]
       // console.log(modelPath)
       loadedModelsMap[modelName] = gltf
 
       if (modelName === 'Carpet') {
         specificObject = gltf.scene; // Store the specific object
       }
+
+      console.log(modelName);
 
       gltf.scene.traverse(function (child) {
         if ((child as THREE.Mesh).isMesh) {
@@ -222,7 +227,8 @@ function loadModels(index: number) {
       // Load the next model recursively
       loadModels(index + 1);
     },
-    () => {
+    (xhr) => {
+      console.log(`${modelPath}: ${(xhr.loaded / xhr.total) * 100}% loaded`);
       // console.log(`${modelPath}: ${(xhr.loaded / xhr.total) * 100}% loaded`);
       // progressBar.style.width = `${progress}%`;
       // console.log(`${modelPath}: ${progress}% loaded`);
@@ -453,17 +459,17 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
 const gridSize = 10; // Adjust the size of the grid
-const gridDivisions = 10; // Adjust the number of divisions in the grid
+const gridDivisions = 20; // Adjust the number of divisions in the grid
 
 // Initial grid color (day mode)
-let gridColor = 0x000000;
+let gridColor = 0x808080;
 
 const gridGeometry = new THREE.PlaneGeometry(gridSize, gridSize, gridDivisions, gridDivisions);
 const gridMaterial = new THREE.MeshBasicMaterial({
   color: gridColor, // Set the initial grid color
   wireframe: true, // Display the grid as wireframe
   transparent: true,
-  opacity: 0.2, // Adjust the opacity of the grid
+  opacity: 1, // Adjust the opacity of the grid
 });
 
 const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
