@@ -9,8 +9,8 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 // import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
+// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+// import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 import { SubsurfaceScatteringShader } from 'three/examples/jsm/shaders/SubsurfaceScatteringShader';
 import { RepeatWrapping, ShaderMaterial, TextureLoader, UniformsUtils, Vector3, DoubleSide } from 'three';
 
@@ -64,9 +64,9 @@ composer.addPass(renderPass);
 // composer.addPass(fxaaPass);
 
 // Create FXAA pass
-const fxaaPass = new ShaderPass(FXAAShader);
-fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * window.devicePixelRatio);
-fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * window.devicePixelRatio);
+// const fxaaPass = new ShaderPass(FXAAShader);
+// fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * window.devicePixelRatio);
+// fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * window.devicePixelRatio);
 
 // SSAO pass
 const ssaoPass = new SSAOPass(scene, camera, window.innerWidth, window.innerHeight);
