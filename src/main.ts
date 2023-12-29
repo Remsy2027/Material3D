@@ -20,17 +20,27 @@ import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_me
 import GLTFMaterialsVariantsExtension from 'three-gltf-extensions/loaders/KHR_materials_variants/KHR_materials_variants.js';
 
 const modelPaths = [
-  'models/Wall.glb',
-  'models/Floor.glb',
-  'models/Frame.glb',
-  'models/Plant.glb',
-  'models/Coffee_Table.glb',
-  'models/Accessories.glb',
-  'models/Floor_Lamp.glb',
-  'models/Window.glb',
-  'models/Carpet.glb',
-  'models/Sofa.glb',
-  // 'models/Sofa.glb'
+  'https://d2629xvaofl3d3.cloudfront.net/Wall.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Floor.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Frame.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Plant.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Coffee_Table.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Accessories.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Floor_Lamp.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Window.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Carpet.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Sofa.glb',
+  
+  // 'models/Wall.glb',
+  // 'models/Floor.glb',
+  // 'models/Frame.glb',
+  // 'models/Plant.glb',
+  // 'models/Coffee_Table.glb',
+  // 'models/Accessories.glb',
+  // 'models/Floor_Lamp.glb',
+  // 'models/Window.glb',
+  // 'models/Carpet.glb',
+  // 'models/Sofa.glb',
 ];
 
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
@@ -99,7 +109,6 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
-let scaleFactor = 1;
 
 // Function to add HDRI
 function setupHDRI() {
@@ -179,7 +188,8 @@ function loadModels(index: number) {
       console.log(`Loaded model from ${modelPath}`, gltf);
       // console.log(modelPath)
       // console.log(gltf, index)
-      const modelName = modelPath.split('/')[1].split('.')[0]
+      const modelName = modelPath.split('/')[3].split('.')[0]
+      // const modelName = modelPath.split('/')[1].split('.')[0]
       // console.log(modelPath)
       loadedModelsMap[modelName] = gltf
 
