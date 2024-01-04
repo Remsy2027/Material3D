@@ -19,12 +19,7 @@ import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_me
 //@ts-ignore
 import GLTFMaterialsVariantsExtension from 'three-gltf-extensions/loaders/KHR_materials_variants/KHR_materials_variants.js';
 
-interface MaterialJsonData {
-  diffuseMap: string;
-  glossMap: string;
-  normalMap: string;
-  // ... other properties
-}
+
 
 const modelPaths = [
   'https://d2629xvaofl3d3.cloudfront.net/Wall.glb',
@@ -50,11 +45,9 @@ const modelPaths = [
   // 'models/Sofa_Default.glb',
 ];
 
-const scaleFactor = 1;
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
 const specificObjectToggleCheckbox = document.getElementById('specificObjectToggle') as HTMLInputElement;
 let specificObject: THREE.Object3D | undefined;
-let loadedModel: THREE.Object3D | undefined;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff); // Set 3D scene's background color to white
@@ -132,46 +125,6 @@ function setupHDRI() {
 
 setupHDRI();
 
-// Function to create material from JSON data
-function createMaterialFromJSON(jsonData: MaterialJsonData): THREE.MeshPhysicalMaterial {
-  // ... (existing implementation)
-}
-
-// Function to apply material to the loaded model
-function applyMaterialToModel(selectedJsonData: MaterialJsonData) {
-  const newMaterial = createMaterialFromJSON(selectedJsonData);
-
-  if (loadedModel) {
-    loadedModel.traverse((node) => {
-      if (node.isMesh) {
-        node.material = newMaterial;
-      }
-    });
-  }
-}
-
-// Example of leatherMaterials with type annotation
-const leatherMaterials: Record<string, MaterialJsonData> = {
-  "Brown": { /* JSON data for Brown leather material */ },
-  "Blue": { /* JSON data for Blue leather material */ },
-  "Pattern": { /* JSON data for Pattern leather material */ },
-  "Orange": { /* JSON data for Orange leather material */ }
-  // Add more variants as needed
-};
-
-
-
-// Event listener for leather material buttons
-document.querySelectorAll('.accordion-content#Leather .button').forEach((button) => {
-  button.addEventListener('click', (event) => {
-    const variant = event.currentTarget.dataset.variant;
-    const selectedJsonData = leatherMaterials[variant];
-    if (selectedJsonData) {
-      applyMaterialToModel(selectedJsonData);
-    }
-  });
-});
-
 
 //Changing Material variants
 const loadedModelsMap: any = {}
@@ -227,7 +180,7 @@ function loadModels(index: number) {
   }
 
   // While loading, set a different pixel ratio
-  renderer.setPixelRatio(0.4);
+  renderer.setPixelRatio(0.40);
   composer.setSize(window.innerWidth * 0.75, window.innerHeight);
 
   const modelPath = modelPaths[index];
@@ -358,7 +311,6 @@ function replaceMaterial(model: THREE.Object3D, materialName: string, newMateria
 
 // Example: Replace material of 'FloorLamp_Cover' with subsurface scattering material
 const subsurfaceScatteringMaterial = createSubsurfaceMaterial();
-replaceMaterial(specificObject, 'FloorLamp_Cover', subsurfaceScatteringMaterial);
 
 // Ensure that specificObject is defined before replacing its material
 if (specificObject) {
