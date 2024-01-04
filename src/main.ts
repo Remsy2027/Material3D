@@ -31,7 +31,7 @@ const modelPaths = [
   'https://d2629xvaofl3d3.cloudfront.net/Floor_Lamp.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Window.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Carpet.glb',
-  'https://d2629xvaofl3d3.cloudfront.net/Sofa.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Sofa_Default.glb',
   
   // 'models/Wall.glb',
   // 'models/Floor.glb',
@@ -42,7 +42,7 @@ const modelPaths = [
   // 'models/Floor_Lamp.glb',
   // 'models/Window.glb',
   // 'models/Carpet.glb',
-  // 'models/Sofa.glb',
+  // 'models/Sofa_Default.glb',
 ];
 
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
@@ -180,7 +180,7 @@ function loadModels(index: number) {
   }
 
   // While loading, set a different pixel ratio
-  renderer.setPixelRatio(0.25);
+  renderer.setPixelRatio(0.40);
   composer.setSize(window.innerWidth * 0.75, window.innerHeight);
 
   const modelPath = modelPaths[index];
