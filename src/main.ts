@@ -8,9 +8,6 @@ import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
-// import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-// import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 import { SubsurfaceScatteringShader } from 'three/examples/jsm/shaders/SubsurfaceScatteringShader';
 import { RepeatWrapping, ShaderMaterial, TextureLoader, UniformsUtils, Vector3, DoubleSide } from 'three';
 
@@ -18,8 +15,6 @@ import { RepeatWrapping, ShaderMaterial, TextureLoader, UniformsUtils, Vector3, 
 import GLTFMeshGpuInstancingExtension from 'three-gltf-extensions/loaders/EXT_mesh_gpu_instancing/EXT_mesh_gpu_instancing.js';
 //@ts-ignore
 import GLTFMaterialsVariantsExtension from 'three-gltf-extensions/loaders/KHR_materials_variants/KHR_materials_variants.js';
-
-
 
 const modelPaths = [
   'https://d2629xvaofl3d3.cloudfront.net/Wall.glb',
@@ -31,18 +26,7 @@ const modelPaths = [
   'https://d2629xvaofl3d3.cloudfront.net/Floor_Lamp.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Window.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Carpet.glb',
-  'https://d2629xvaofl3d3.cloudfront.net/Sofa_Default.glb',
-  
-  // 'models/Wall.glb',
-  // 'models/Floor.glb',
-  // 'models/Frame.glb',
-  // 'models/Plant.glb',
-  // 'models/Coffee_Table.glb',
-  // 'models/Accessories.glb',
-  // 'models/Floor_Lamp.glb',
-  // 'models/Window.glb',
-  // 'models/Carpet.glb',
-  // 'models/Sofa_Default.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Sofa.glb',
 ];
 
 const progressContainer = document.querySelector('.spinner-container') as HTMLElement;
@@ -65,20 +49,6 @@ document.body.appendChild(renderer.domElement);
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
-
-// Replace the FXAA pass with SMAA pass
-// const smaaPass = new SMAAPass(window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio());
-// composer.addPass(smaaPass);
-
-// Create FXAA pass
-// const fxaaPass = new ShaderPass(FXAAShader);
-// fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
-// composer.addPass(fxaaPass);
-
-// Create FXAA pass
-// const fxaaPass = new ShaderPass(FXAAShader);
-// fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * window.devicePixelRatio);
-// fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * window.devicePixelRatio);
 
 // SSAO pass
 const ssaoPass = new SSAOPass(scene, camera, window.innerWidth, window.innerHeight);
@@ -109,6 +79,7 @@ loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
 
 // console.log(ktx2Loader,dracoLoader,loader)
 
+const scaleFactor = 1;
 const dayNightToggle = document.getElementById('dayNightToggle');
 let isDayMode = false; // Initial mode is day
 
@@ -124,7 +95,6 @@ function setupHDRI() {
 }
 
 setupHDRI();
-
 
 //Changing Material variants
 const loadedModelsMap: any = {}
@@ -292,8 +262,6 @@ function createSubsurfaceMaterial() {
   return subMaterial;
 }
 
-
-
 function replaceMaterial(model: THREE.Object3D, materialName: string, newMaterial: THREE.Material) {
   model.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
@@ -307,7 +275,6 @@ function replaceMaterial(model: THREE.Object3D, materialName: string, newMateria
     }
   });
 }
-
 
 // Example: Replace material of 'FloorLamp_Cover' with subsurface scattering material
 const subsurfaceScatteringMaterial = createSubsurfaceMaterial();
