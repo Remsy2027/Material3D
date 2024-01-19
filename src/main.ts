@@ -8,7 +8,7 @@ import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
-// import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 // import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 // import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 import { SubsurfaceScatteringShader } from 'three/examples/jsm/shaders/SubsurfaceScatteringShader';
@@ -31,7 +31,7 @@ const modelPaths = [
   'https://d2629xvaofl3d3.cloudfront.net/Floor_Lamp.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Window.glb',
   'https://d2629xvaofl3d3.cloudfront.net/Carpet.glb',
-  'https://d2629xvaofl3d3.cloudfront.net/Sofa_Default.glb',
+  'https://d2629xvaofl3d3.cloudfront.net/Sofa.glb',
   
   // 'models/Wall.glb',
   // 'models/Floor.glb',
@@ -67,8 +67,8 @@ const renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
 // Replace the FXAA pass with SMAA pass
-// const smaaPass = new SMAAPass(window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio());
-// composer.addPass(smaaPass);
+const smaaPass = new SMAAPass(window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio());
+composer.addPass(smaaPass);
 
 // Create FXAA pass
 // const fxaaPass = new ShaderPass(FXAAShader);
@@ -115,7 +115,7 @@ let isDayMode = false; // Initial mode is day
 // Function to add HDRI
 function setupHDRI() {
   const rgbeloader = new RGBELoader();
-  rgbeloader.load('hdri/gem_2.hdr', (hdri) => {
+  rgbeloader.load('hdri/neutral.hdr', (hdri) => {
     const myhdr = hdri;
     myhdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = myhdr;
@@ -180,7 +180,7 @@ function loadModels(index: number) {
   }
 
   // While loading, set a different pixel ratio
-  renderer.setPixelRatio(0.40);
+  renderer.setPixelRatio(0.80);
   composer.setSize(window.innerWidth * 0.75, window.innerHeight);
 
   const modelPath = modelPaths[index];
@@ -470,24 +470,24 @@ camera.position.set(-3.5, 2, 3.5);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
-const gridSize = 5; // Adjust the size of the grid
-const gridDivisions = 10; // Adjust the number of divisions in the grid
+// const gridSize = 5; // Adjust the size of the grid
+// const gridDivisions = 10; // Adjust the number of divisions in the grid
 
-// Initial grid color (day mode)
-let gridColor = 0x808080;
+// // Initial grid color (day mode)
+// let gridColor = 0x808080;
 
-const gridGeometry = new THREE.PlaneGeometry(gridSize, gridSize, gridDivisions, gridDivisions);
-const gridMaterial = new THREE.MeshBasicMaterial({
-  color: gridColor, // Set the initial grid color
-  wireframe: true, // Display the grid as wireframe
-  transparent: true,
-  opacity: 1, // Adjust the opacity of the grid
-});
+// const gridGeometry = new THREE.PlaneGeometry(gridSize, gridSize, gridDivisions, gridDivisions);
+// const gridMaterial = new THREE.MeshBasicMaterial({
+//   color: gridColor, // Set the initial grid color
+//   wireframe: true, // Display the grid as wireframe
+//   transparent: true,
+//   opacity: 1, // Adjust the opacity of the grid
+// });
 
-const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
-gridMesh.rotation.x = -Math.PI / 2; // Rotate the grid to be horizontal
-gridMesh.position.y = -0.51; // Adjust the Y position to be just below other objects
-scene.add(gridMesh);
+// const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
+// gridMesh.rotation.x = -Math.PI / 2; // Rotate the grid to be horizontal
+// gridMesh.position.y = -0.51; // Adjust the Y position to be just below other objects
+// scene.add(gridMesh);
 
 function render() {
   renderer.render(scene, camera);
